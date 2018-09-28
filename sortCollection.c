@@ -1,5 +1,11 @@
 #include "sortCollection.h"
 
+void switchData(int *arr,int a,int b){
+	int temp = arr[a];
+	arr[a] = arr[b];
+	arr[b] = temp;
+}
+
 //希尔排序
 void ShellSort(SqList *l,int *delta,int t){
 	for(int i = 0; i < t; ++i){
@@ -34,3 +40,50 @@ void BubbleSort(SqList *l){
 		}
 	}
 }
+
+/*快速排序*/
+int partition(SqList *l,int low,int high){
+	int cur = l->array[low];
+
+	while( low < high ){
+		for( ; low<high && GQ(l->array[high], cur); --high);
+		switchData(l->array,low,high);
+		for( ; low<high && LQ(l->array[low], l->array[high]); ++low);
+		switchData(l->array,low,high);
+	}
+	l->array[low] = cur;
+	
+	return low;
+}
+
+void QSort(SqList *l,int low,int high){
+	if( low < high ){
+		int ptin = partition(l, low, high);
+		QSort(l, low, ptin-1);
+		QSort(l, ptin+1, high);
+	}
+}
+
+/************************选择排序***********************/
+int selectionMinKey(SqList *l,int start){
+	int minIndex = start;
+
+	for(int i = start+1; i < l->length; ++i){
+		if( LT(l->array[i], l->array[minIndex]) ){
+			minIndex = i;
+		}
+	}
+
+	return minIndex;
+}
+
+void SelectionSort(SqList *l){
+	for(int i = 0; i < l->length; ++i){
+		int j = selectionMinKey(l, i);
+
+		if( j != i ){
+			switchData(l->array, i, j);
+		}
+	}
+}
+
