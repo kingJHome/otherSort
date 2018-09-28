@@ -8,10 +8,11 @@ typedef struct{
 	SqList sarr;
 }readData;
 
-void readFileHander(char *filename,readData *wrap);
+void readFileHander(char *filename,void *wrap);
 void commonSetData(char *ch,SqList *data);
 void getShellData(char *ch,void *dArr);
 void getShellArr(char *ch,void *sArr);
+void getBubbleData(char *ch,void *bll);
 void visitSqList(SqList sl);
 
 int main(int argc,char *argv[]){
@@ -26,13 +27,23 @@ int main(int argc,char *argv[]){
 			printf("\nafter sort:");
 			visitSqList(wrap.data);
 			printf("\n");
+		}else if( strcmp(argv[1],"-bs")==0 ){//冒泡排序
+			SqList bubble = {NULL,0};
+
+			readFileHander("data.txt",&bubble);
+			printf("冒泡排序\nbefore sort:");
+			visitSqList(bubble);
+			BubbleSort(&bubble);
+			printf("\nafter sort:");
+			visitSqList(bubble);
+			printf("\n");
 		}
 	}
 
 	return 0;
 }
 
-void readFileHander(char *filename,readData *wrap){
+void readFileHander(char *filename,void *wrap){
 	FILE *fp = fopen(filename,"r");
 
 	if( fp ){
@@ -41,8 +52,9 @@ void readFileHander(char *filename,readData *wrap){
 
 		while( getline(&read, &getSize, fp) != -1 ){
 			getSize = 0;
-			getShellData(read,&wrap->data);
-			getShellArr(read,&wrap->sarr);
+			getShellData(read,wrap);
+			getShellArr(read,wrap);
+			getBubbleData(read,wrap);
 		}
 	}
 }
@@ -77,7 +89,7 @@ void commonSetData(char *ch,SqList *data){
 void getShellData(char *ch,void *dArr){
 	if( strstr(ch,"shellSortData")==ch ){//获取待排数组
 		char *dataStr = strchr(ch,':');
-		SqList *data = (SqList*)dArr;
+		SqList *data = &((readData*)dArr)->data;
 
 		if( dataStr ){
 			commonSetData(dataStr+1, data);
@@ -88,10 +100,21 @@ void getShellData(char *ch,void *dArr){
 void getShellArr(char *ch,void *sArr){
 	if( strstr(ch,"shellSortArr")==ch ){//获取分组间隔数组
 		char *dataStr = strchr(ch,':');
-		SqList *data = (SqList*)sArr;
+		SqList *data = &((readData*)sArr)->sarr;
 
 		if( dataStr ){
 			commonSetData(dataStr+1, data);
+		}
+	}
+}
+
+void getBubbleData(char *ch,void *bll){
+	if( strstr(ch,"bubbleSortData")==ch ){
+		char *dataStr = strchr(ch,':');
+		SqList *sl = (SqList*)bll;
+
+		if( dataStr ){
+			commonSetData(dataStr+1, sl);
 		}
 	}
 }

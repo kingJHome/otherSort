@@ -21,3 +21,16 @@ void ShellInsert(SqList *l,int dk){
 		}
 	}
 }
+
+//冒泡排序
+void BubbleSort(SqList *l){
+	for(int i = 0; i < l->length; ++i){
+		for(int j = l->length - 1; j > i; --j){
+			if( LT(l->array[j], l->array[j-1]) ){
+				int temp = l->array[j];
+				l->array[j] = l->array[j-1];
+				l->array[j-1] = temp;
+			}
+		}
+	}
+}

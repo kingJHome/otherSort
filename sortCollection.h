@@ -15,4 +15,7 @@ void ShellSort(SqList *l,int *delta,int t);
 //希尔插入排序
 void ShellInsert(SqList *l,int dk);
 
+//冒泡排序
+void BubbleSort(SqList *l);
+
 #endif
