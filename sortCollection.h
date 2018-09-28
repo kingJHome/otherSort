@@ -1,5 +1,8 @@
-#ifdef _OTHER_SORT_AL
+#ifndef _OTHER_SORT_AL
 #define _OTHER_SORT_AL
+
+#define LT(a,b) ((a) < (b))
+#define GT(a,b) ((a) > (b))
 
 typedef struct{
 	int *array;

@@ -1,4 +1,4 @@
-files = test.c sortCollection.c
+files = sortCollection.c test.c
 
 test: $(files)
 	gcc -o $@ $^
